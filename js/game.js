@@ -2,12 +2,12 @@
 
 const FOOD = '.';
 const EMPTY = ' ';
-const WALL = `<img class="wall" src="img/wall.png">`; 
+const WALL = `<img class="wall" src="img/wall.png">`;
 const POWER = `<img class="power" src="img/power.png">`;
 const CHERRY = `<img class="cherry" src="img/cherry.png">`;
 
 var gCherryInterval;
-var highestScore = 60;
+var gHighestScore = 60;
 var gBoard;
 var gGame = {
     score: 0,
@@ -22,7 +22,7 @@ function init() {
     printMat(gBoard, '.board-container');
     gGame.isOn = true;
     //random cherry
-    gCherryInterval = setInterval(randomCherry, 10000, gBoard)
+    gCherryInterval = setInterval(randomCherry, 20000, gBoard)
 }
 
 function buildBoard() {
@@ -55,27 +55,30 @@ function updateScore(diff) {
 
     // model
     gGame.score += diff;
-
+    console.log('gGame.score', gGame.score)
     //dom
     var elScore = document.querySelector('h2 span');
     elScore.innerText = gGame.score;
+    
+    if (gGame.score === 10) {
+        console.log('gGame.score === gHighestScore', gGame.score, gHighestScore)
 
-    if (gGame.score === highestScore) {
         gameOver()
         gGame.score = 0
+        return
     }
 }
 
 
-// TODO
 function gameOver() {
+
+    if (gGame.score === 10) victory() //eat all food
+    else loos() //hitting a ghost
 
     gGame.isOn = false;
     clearInterval(gIntervalGhosts);
     gIntervalGhosts = null;
 
-    if (gGame.score === highestScore) victory() //eat all food
-    else loos() //hitting a ghost
 }
 
 function loos() {
@@ -126,5 +129,5 @@ function randomCherry(board) {
     renderCell(location, CHERRY);
 
     //Update the highest Score
-    highestScore += 10
+    gHighestScore += 10
 }

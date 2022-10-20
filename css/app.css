@@ -1,0 +1,52 @@
+body {
+  background-color: black;
+  color: white;
+  text-align: center;
+  margin: auto;
+}
+
+div table {
+  margin: auto;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.modal {
+  display: none;
+}
+
+.wall {
+  width: 25px;
+  height: 25px;
+}
+
+.power {
+  width: 25px;
+  height: 25px;
+}
+
+.cherry {
+  width: 25px;
+  height: 25px;
+}
+
+.pacman {
+  width: 25px;
+  height: 25px;
+}
+
+.ghosts {
+  width: 25px;
+  height: 25px;
+}
+
+/* .formLine {
+  margin:10px;
+  padding:10px;
+  background-color: cornflowerblue;
+} */

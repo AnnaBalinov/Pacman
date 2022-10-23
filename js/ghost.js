@@ -1,6 +1,6 @@
 'use strict';
 var ghostColor = 'pink'
-var GHOST = `<img class="ghosts" src="img/${ghostColor}Ghost.gif">`;
+var GHOST = `<img class="ghosts" src="img/${ghostColor}ghost.gif">`;
 // '&#9781;';
 
 var gGhosts = [];
@@ -8,7 +8,7 @@ var gIntervalGhosts;
 var gDeadGhosts = [];
 
 function createGhost(board, ghostColor) {
-    GHOST = `<img class="ghosts" src="img/${ghostColor}Ghost.gif">`;
+    GHOST = `<img class="ghosts" src="img/${ghostColor}ghost.gif">`;
     var ghost = {
         location: {
             i: 3,
@@ -88,7 +88,7 @@ function getMoveDiff() {
 // getRandomColor()
 function getGhostHTML(ghost) {
     var color = (gPacman.isSuper) ? 'blue' : ghost.color;
-    return `<img class="ghosts" src="img/${color}Ghost.gif">`;
+    return `<img class="ghosts" src="img/${color}ghost.gif">`;
 }
 
 //Remove the ghosts

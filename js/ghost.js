@@ -111,7 +111,7 @@ function getMoveDiff() {
 // getRandomColor()
 function getGhostHTML(ghost) {
     var color = (gPacman.isSuper) ? 'blue' : ghost.color;
-    return `<img class="ghosts" src="img/${color}Ghost.gif">`;
+    return `<img class="ghosts" src="img/${color}ghost.gif">`;
 }
 
 //Remove the ghosts

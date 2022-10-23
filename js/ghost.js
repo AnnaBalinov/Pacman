@@ -33,7 +33,7 @@ function createGhosts(board) {
     createGhost(board, 'pink');
     createGhost(board, 'yellow');
     createGhost(board, 'red');
-    gIntervalGhosts = setInterval(moveGhosts, 2000);
+    gIntervalGhosts = setInterval(moveGhosts, 1000);
 
 }
 

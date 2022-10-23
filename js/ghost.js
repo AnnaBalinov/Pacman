@@ -1,25 +1,29 @@
 'use strict';
-var ghostColor = 'pink'
-var GHOST = `<img class="ghosts" src="img/${ghostColor}ghost.gif">`;
-// '&#9781;';
+
+var pinkGHOST = `<img class="ghosts" src="img/pinkghost.gif">`;
+var yellowGHOST = `<img class="ghosts" src="img/yellowghost.gif">`;
+var redGHOST = `<img class="ghosts" src="img/redghost.gif">`;
+var blueGHOST = `<img class="ghosts" src="img/blueghost.gif">`;
 
 var gGhosts = [];
 var gIntervalGhosts;
 var gDeadGhosts = [];
 
 function createGhost(board, ghostColor) {
-    GHOST = `<img class="ghosts" src="img/${ghostColor}ghost.gif">`;
+
     var ghost = {
+        img: `<img class="ghosts" src="img/${ghostColor}ghost.gif">`,
         location: {
             i: 3,
             j: 3
         },
         currCellContent: FOOD,
-        color: ghostColor
+        color: ghostColor,
     };
+
     gGhosts.push(ghost);
     //model
-    board[ghost.location.i][ghost.location.j] = GHOST;
+    board[ghost.location.i][ghost.location.j] = ghost.img;
 
 }
 
@@ -30,7 +34,7 @@ function createGhosts(board) {
     createGhost(board, 'yellow');
     createGhost(board, 'red');
     gIntervalGhosts = setInterval(moveGhosts, 2000);
-    
+
 }
 
 // loop through ghosts
@@ -39,34 +43,53 @@ function moveGhosts() {
         moveGhost(gGhosts[i]);
     }
 }
+
 function moveGhost(ghost) {
+
     // figure out moveDiff, nextLocation, nextCell
     var moveDiff = getMoveDiff();
     var nextLocation = {
         i: ghost.location.i + moveDiff.i,
         j: ghost.location.j + moveDiff.j
     };
+
     var nextCellContent = gBoard[nextLocation.i][nextLocation.j];
+    // console.log('nextCellContent', nextCellContent)
 
     // return if cannot move
-    if (nextCellContent === WALL) return;
-    if (nextCellContent === GHOST) return;
+    // if (nextCellContent === WALL) return;
+    if (nextCellContent === WALL ||
+        nextCellContent === pinkGHOST ||
+        nextCellContent === yellowGHOST ||
+        nextCellContent === redGHOST ||
+        nextCellContent === blueGHOST)
+        return;
+
     // hitting a pacman?  call gameOver
     if (nextCellContent === PACMAN) {
-        gameOver();
-        return;
+        if (gPacman.isSuper) {  /////////IF POWER IS ON
+            return
+        } else {
+            gameOver();
+            return;
+        }
     }
 
     // update the model
     gBoard[ghost.location.i][ghost.location.j] = ghost.currCellContent;
+
     // update the DOM
     renderCell(ghost.location, ghost.currCellContent);
+
     // Move the ghost
     ghost.location = nextLocation;
     ghost.currCellContent = nextCellContent;
+
     // update the model
-    gBoard[ghost.location.i][ghost.location.j] = GHOST;
+    gBoard[ghost.location.i][ghost.location.j] = ghost.img;
+
     // update the DOM
+    // renderCell(ghost.location, ghost);
     renderCell(ghost.location, getGhostHTML(ghost));
 
 }
@@ -88,18 +111,25 @@ function getMoveDiff() {
 // getRandomColor()
 function getGhostHTML(ghost) {
     var color = (gPacman.isSuper) ? 'blue' : ghost.color;
-    return `<img class="ghosts" src="img/${color}ghost.gif">`;
+    return `<img class="ghosts" src="img/${color}Ghost.gif">`;
 }
 
 //Remove the ghosts
-function eatGhost(ghosts, location) {
+function eatGhost(location) {
     var currGhostIdx = null;
-    for (var x = 0; x < ghosts.length; x++) {
-        if (ghosts[x].location.i === location.i &&
-            ghosts[x].location.j === location.j) {
+    var deadGhost = null;
+    for (var x = 0; x < gGhosts.length; x++) {
+        if (gGhosts[x].location.i === location.i &&
+            gGhosts[x].location.j === location.j) {
             currGhostIdx = x;
+
+            deadGhost = gGhosts.splice(currGhostIdx, 1)[0]
+            console.log('deadGhost:', deadGhost)
+            console.log('gGhosts:', gGhosts)
+
+            gDeadGhosts.push(deadGhost)
+            console.log('gDeadGhosts:', gDeadGhosts)
+
         }
     }
-    var deadGhost = ghosts.splice(currGhostIdx, 1)[0]
-    gDeadGhosts.push(deadGhost)
 }

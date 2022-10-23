@@ -7,15 +7,14 @@ const POWER = `<img class="power" src="img/power.png">`;
 const CHERRY = `<img class="cherry" src="img/cherry.png">`;
 
 var gCherryInterval;
-var gHighestScore = 60;
 var gBoard;
 var gGame = {
     score: 0,
+    foodAmount: 56,
     isOn: false
 };
 
 function init() {
-    console.log('hello');
     gBoard = buildBoard();
     createGhosts(gBoard);
     createPacman(gBoard);
@@ -49,53 +48,71 @@ function buildBoard() {
     return board;
 }
 
-
-// update model and dom
-function updateScore(diff) {
+function updateScore(item) {
 
     // model
-    gGame.score += diff;
-    console.log('gGame.score', gGame.score)
+    switch (item) {
+        case 'FOOD':
+            gGame.foodAmount -= 1
+            gGame.score += 1
+            break;
+        case 'CHERRY':
+            gGame.score += 5
+            break;
+        case 'POWER':
+            gGame.score += 10
+            break;
+        case 'GHOST':
+            gGame.score += 2
+            break;
+        case 'RESET':
+            gGame.score = 0
+            gGame.foodAmount = 56
+            break;
+    }
+
+    if (gGame.foodAmount === 0) {
+        victory()
+        return
+    }
+
     //dom
     var elScore = document.querySelector('h2 span');
     elScore.innerText = gGame.score;
-    
-    if (gGame.score === 10) {
-        console.log('gGame.score === gHighestScore', gGame.score, gHighestScore)
 
-        gameOver()
-        gGame.score = 0
-        return
-    }
 }
-
 
 function gameOver() {
-
-    if (gGame.score === 10) victory() //eat all food
-    else loos() //hitting a ghost
-
+    //dom
     gGame.isOn = false;
     clearInterval(gIntervalGhosts);
+    clearInterval(gCherryInterval);
     gIntervalGhosts = null;
 
-}
-
-function loos() {
+    //modal
     var modal = document.querySelector('.modal')
     modal.style.display = 'block'
 
     var msg = document.querySelector('.modal h1')
     msg.innerText = 'GAME OVER'
+
 }
 
-
 function victory() {
+    //dom
+    gGame.isOn = false;
+    clearInterval(gIntervalGhosts);
+    clearInterval(gCherryInterval);
+    gIntervalGhosts = null;
+
+    //modal
     var modal = document.querySelector('.modal')
     modal.style.display = 'block'
 
     var msg = document.querySelector('.modal h1')
     msg.innerText = 'VICTORY!'
+
+    console.log('victory')
 }
 
 
@@ -104,8 +121,7 @@ function gameReset() {
     init()
 
     //reset score
-    gGame.score = 0;
-    updateScore(0)
+    updateScore('RESET')
 
     //reset modal
     var modal = document.querySelector('.modal')
@@ -121,13 +137,11 @@ function onEatSuper() {
         gGhosts.push(...gDeadGhosts)
         gDeadGhosts = []
     }, 5000);
+
 }
 
 function randomCherry(board) {
     var location = getEmptyLocation(board)
     board[location.i][location.j] = CHERRY;
     renderCell(location, CHERRY);
-
-    //Update the highest Score
-    gHighestScore += 10
 }

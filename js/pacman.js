@@ -1,9 +1,16 @@
 'use strict';
 
-var direction = 0
-var PACMAN = `<img style="transform: rotate(${direction}deg)" class="pacman" src="img/pacwoman.gif">`;  
+var gDirection = 0
+var PACMAN = `<img style="transform: rotate(${gDirection}deg)" class="pacman" src="img/pacwoman.gif">`;
 
-var gPacman;
+var gPacman = {
+    // location: {
+    //     i: 6,
+    //     j: 6
+    // },
+    // isSuper: false,
+};
+
 function createPacman(board) {
     gPacman = {
         location: {
@@ -12,6 +19,7 @@ function createPacman(board) {
         },
         isSuper: false,
     };
+
     board[gPacman.location.i][gPacman.location.j] = PACMAN;
 }
 
@@ -23,23 +31,27 @@ function movePacman(ev) {
     // return if cannot move
     if (nextCellContent === WALL) return;
     // hitting a ghost?  call gameOver
-    if (nextCellContent === GHOST) {
-        if (gPacman.isSuper) {     /////////IF POWER IS ON
+    if (nextCellContent === pinkGHOST ||
+        nextCellContent === yellowGHOST ||
+        nextCellContent === redGHOST ||
+        nextCellContent === blueGHOST) {
+        if (gPacman.isSuper || nextCellContent === blueGHOST) {     /////////IF POWER IS ON
             console.log('eat ghost');
-            eatGhost(gGhosts, nextLocation);
+            eatGhost(nextLocation);
+            updateScore('GHOST')
         } else {
             gameOver();
             return;
         }
     };
-    if (nextCellContent === CHERRY) updateScore(10);
-    if (nextCellContent === FOOD) updateScore(1);
+    if (nextCellContent === FOOD) updateScore('FOOD');
+    if (nextCellContent === CHERRY) updateScore('CHERRY');
     ////////////////////// eat super food : power  ////////////////////////////////////////////
     if (nextCellContent === POWER) {
         if (gPacman.isSuper) {
             return;
         } else {
-            updateScore(1);
+            updateScore('POWER');
             onEatSuper();
         }
     }
@@ -63,23 +75,23 @@ function getNextLocation(ev) {
     // figure out nextLocation
     switch (ev.key) {
         case 'ArrowDown':
+            gDirection = 270;
             nextLocation.i++;
-            direction = 270;
             break;
         case 'ArrowUp':
+            gDirection = 90;
             nextLocation.i--;
-            direction = 90;
             break;
         case 'ArrowLeft':
+            gDirection = 0;
             nextLocation.j--;
-            direction = 0;
             break;
         case 'ArrowRight':
+            gDirection = 180;
             nextLocation.j++;
-            direction = 180;
             break;
-        
-    } 
-    PACMAN = `<img style="transform: rotate(${direction}deg)" class="pacman" src="img/pacwoman.gif">`;  
+
+    }
+    PACMAN = `<img style="transform: rotate(${gDirection}deg)" class="pacman" src="img/pacwoman.gif">`;
     return nextLocation;
 }

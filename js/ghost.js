@@ -54,10 +54,8 @@ function moveGhost(ghost) {
     };
 
     var nextCellContent = gBoard[nextLocation.i][nextLocation.j];
-    // console.log('nextCellContent', nextCellContent)
 
     // return if cannot move
-    // if (nextCellContent === WALL) return;
     if (nextCellContent === WALL ||
         nextCellContent === pinkGHOST ||
         nextCellContent === yellowGHOST ||
@@ -89,9 +87,7 @@ function moveGhost(ghost) {
     gBoard[ghost.location.i][ghost.location.j] = ghost.img;
 
     // update the DOM
-    // renderCell(ghost.location, ghost);
     renderCell(ghost.location, getGhostHTML(ghost));
-
 }
 
 function getMoveDiff() {
@@ -124,12 +120,7 @@ function eatGhost(location) {
             currGhostIdx = x;
 
             deadGhost = gGhosts.splice(currGhostIdx, 1)[0]
-            console.log('deadGhost:', deadGhost)
-            console.log('gGhosts:', gGhosts)
-
             gDeadGhosts.push(deadGhost)
-            console.log('gDeadGhosts:', gDeadGhosts)
-
         }
     }
 }

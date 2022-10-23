@@ -36,7 +36,6 @@ function movePacman(ev) {
         nextCellContent === redGHOST ||
         nextCellContent === blueGHOST) {
         if (gPacman.isSuper || nextCellContent === blueGHOST) {     /////////IF POWER IS ON
-            console.log('eat ghost');
             eatGhost(nextLocation);
             updateScore('GHOST')
         } else {

@@ -21,7 +21,7 @@ function init() {
     printMat(gBoard, '.board-container');
     gGame.isOn = true;
     //random cherry
-    gCherryInterval = setInterval(randomCherry, 20000, gBoard)
+    gCherryInterval = setInterval(randomCherry, 3000, gBoard)
 }
 
 function buildBoard() {

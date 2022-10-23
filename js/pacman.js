@@ -1,7 +1,7 @@
 'use strict';
 
 var direction = 0
-var PACMAN = `<img style="transform: rotate(${direction}deg)" class="pacman" src="img/pacman.gif">`;  
+var PACMAN = `<img style="transform: rotate(${direction}deg)" class="pacman" src="img/pacwoman.gif">`;  
 
 var gPacman;
 function createPacman(board) {
@@ -80,6 +80,6 @@ function getNextLocation(ev) {
             break;
         
     } 
-    PACMAN = `<img style="transform: rotate(${direction}deg)" class="pacman" src="img/pacman.gif">`;  
+    PACMAN = `<img style="transform: rotate(${direction}deg)" class="pacman" src="img/pacwoman.gif">`;  
     return nextLocation;
 }

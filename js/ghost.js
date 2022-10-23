@@ -87,7 +87,7 @@ function moveGhost(ghost) {
     gBoard[ghost.location.i][ghost.location.j] = ghost.img;
 
     // update the DOM
-    renderCell(ghost.location, getGhostHTML(ghost));
+    renderCell(ghost.location, (gPacman.isSuper) ? blueGHOST : ghost.img);
 }
 
 function getMoveDiff() {
@@ -103,12 +103,19 @@ function getMoveDiff() {
     }
 }
 
-//style="color: bollywood;
-// getRandomColor()
-function getGhostHTML(ghost) {
-    var color = (gPacman.isSuper) ? 'blue' : ghost.color;
-    return `<img class="ghosts" src="img/${color}ghost.gif">`;
-}
+// //style="color: bollywood;
+// // getRandomColor()
+// function getGhostHTML(ghost) {
+//     // var color = (gPacman.isSuper) ? 'blue' : ghost.color;
+//     // var ghostImg = `<img class="ghosts" src="img/${color}ghost.gif">`
+//     // console.log(ghostImg)
+//     // return ghostImg;
+
+//     var color = (gPacman.isSuper) ? 'blue' : ghost.color;
+//     var ghostImg = `<img class="ghosts" src="img/${color}ghost.gif">`
+//     console.log(ghostImg)
+//     return ghostImg;
+// }
 
 //Remove the ghosts
 function eatGhost(location) {
